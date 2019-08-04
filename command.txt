@@ -1,0 +1,6 @@
+kubectl -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin-user | awk '{print $1}')
+
+
+docker build -t mmaks17/nginx-nfs:latest .
+docker tag   mmaks17/nginx-nfs:latest mmaks17/nginx-nfs:latest 
+docker push  mmaks17/nginx-nfs:latest

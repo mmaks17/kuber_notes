@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-nfs
+  labels:
+    app: nginx-nfs
+spec:
+  containers:
+  - name: nginx-nfs
+    image: mmaks17/nginx-nfs:latest
+    ports:
+      - containerPort: 80
+    volumeMounts:
+       - name: www-nfs-pvc
+         mountPath: "/www"
+       - name: nginx-configmap
+         mountPath: /etc/nginx/conf.d
+    resources:
+      requests:
+        memory: "500Mi"
+        cpu: "550m"
+      limits:
+        memory: "600Mi"
+        cpu: "600m"
+  volumes:
+  - name: www-nfs-pvc
+    persistentVolumeClaim:
+     claimName: www-nfs-pvc
+
+  - name: nginx-configmap
+    configMap:
+      name: nginx-configmap

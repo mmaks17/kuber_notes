@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: php-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: php-nfs
+    spec:
+      containers:
+      - name: php-nfs
+        image: mmaks17/php72-nfs:latest
+        ports:
+          - containerPort: 9000
+        volumeMounts:
+          - name: www-nfs-pvc
+            mountPath: "/www"
+        resources:
+          requests:
+            memory: "500Mi"
+            cpu: "550m"
+          limits:
+            memory: "600Mi"
+            cpu: "600m"
+      volumes:
+      - name: www-nfs-pvc
+        persistentVolumeClaim:
+          claimName: www-nfs-pvc
